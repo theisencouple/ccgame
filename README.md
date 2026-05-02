@@ -1,2 +1,2 @@
 # ccgame
-A computer club game
+A computer club game, test

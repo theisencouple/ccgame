@@ -45,10 +45,6 @@ class Area:
             panel.load_image(ui, self.image)
 
 
-class GenericArea(Area):
-    pass
-
-
 class Section:
     def __init__(self, areas: list[list[Area]]) -> None:
         self.areas = areas

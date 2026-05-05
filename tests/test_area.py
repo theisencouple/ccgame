@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from area import Area, Coordinates, Section, GenericArea
+from area import Area, Coordinates, Section
 
 
 class TestCoordinates:
@@ -60,7 +60,7 @@ class TestArea:
 
 class TestSection:
     def _section(self, rows=3, cols=3):
-        grid = [[GenericArea(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
+        grid = [[Area(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
         return Section(grid), grid
 
     def test_get_area(self):

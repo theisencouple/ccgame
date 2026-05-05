@@ -51,11 +51,7 @@ class TestArea:
         area.enter(ui)
         ui.say.assert_called_once()
 
-    def test_default_title(self):
-        assert Area("dark forest", "desc").title == "Dark Forest"
 
-    def test_custom_title(self):
-        assert Area("x", "desc", title="Custom").title == "Custom"
 
 
 class TestSection:

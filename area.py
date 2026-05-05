@@ -15,12 +15,10 @@ class Coordinates(NamedTuple):
 class Area:
     def __init__(self, name: str, description: str,
                  color: tuple[int, int, int] = (60, 60, 60),
-                 title: str = "",
                  image: Path | None = None) -> None:
         self.name = name
         self.description = description
         self.color = color
-        self.title = title or name.title()
         self.image = image
         self.visited = False
 
@@ -39,7 +37,7 @@ class Area:
         ui.fill_rect(x, y, ui.TS, ui.TS, self.tile_color())
 
     def render_panel(self, ui: UI, panel: Panel) -> None:
-        panel.title = self.title
+        panel.title = self.name.title()
         panel.draw(ui)
         if self.image:
             panel.load_image(ui, self.image)

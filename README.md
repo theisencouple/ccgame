@@ -11,6 +11,22 @@ A top-down adventure game built by the computer club. This project is designed f
 
 ## How to run
 
+Create and activate a virtual environment:
+
+```
+python -m venv .venv
+```
+
+On Mac/Linux:
+```
+source .venv/bin/activate
+```
+
+On Windows:
+```
+.venv\Scripts\activate
+```
+
 Install dependencies:
 
 ```
@@ -28,8 +44,8 @@ python main.py
 | File | What it does |
 |---|---|
 | `main.py` | Starts the game and runs the main loop |
-| `ui.py` | Draws everything on screen |
-| `panel.py` | `Panel` and `MessagePanel` classes for UI boxes |
+| `ui/ui.py` | Draws everything on screen |
+| `ui/panel.py` | `Panel` and `MessagePanel` classes for UI boxes |
 | `area.py` | Defines what an area is and how the map is organized |
 | `starting_area.py` | Builds the starting 30×30 world |
 | `character.py` | Tracks the player's position and handles movement |

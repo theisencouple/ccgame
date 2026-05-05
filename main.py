@@ -2,10 +2,10 @@ import sys
 
 import pygame
 
-from ui import UI
+from ui.ui import UI
 from area import Coordinates
 from character import Character
-from starting_area import starting_section
+from areas.starting_area import starting_section
 
 
 pygame.init()
@@ -40,8 +40,11 @@ def main():
                     ui.scroll(-5)
                 character.handle_key(event.key, ui)
 
-
-        ui.draw(starting_section, character)
+        ui.clear()
+        starting_section.draw_map(ui, character.coordinates.row, character.coordinates.col)
+        character.draw(ui)
+        ui.MESSAGES_PANEL.draw(ui)
+        ui.flip()
 
 
 if __name__ == "__main__":

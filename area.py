@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import NamedTuple
 
 from ui.ui import UI
@@ -12,15 +13,14 @@ class Coordinates(NamedTuple):
 
 
 class Area:
-    def __init__(self, name: str, description: str | None = None,
+    def __init__(self, name: str, description: str,
                  color: tuple[int, int, int] = (60, 60, 60),
-                 title: str | None = None, icon: str | None = None,
-                 image: str | None = None) -> None:
+                 title: str = "",
+                 image: Path | None = None) -> None:
         self.name = name
         self.description = description
         self.color = color
         self.title = title or name.title()
-        self.icon = icon
         self.image = image
         self.visited = False
 

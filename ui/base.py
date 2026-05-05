@@ -1,4 +1,5 @@
 import pygame
+from pathlib import Path
 
 Color = tuple[int, int, int]
 
@@ -22,7 +23,7 @@ class UIBase:
     STRAWBERRY: Color = (148, 52, 72)
 
     def __init__(self) -> None:
-        self._image_cache: dict[tuple[str, int, int], pygame.Surface] = {}
+        self._image_cache: dict[tuple[Path, int, int], pygame.Surface] = {}
         self.screen: pygame.Surface | None = None
         self.font: pygame.font.Font | None = None
 
@@ -57,7 +58,7 @@ class UIBase:
             lines.append(line)
         return lines or [""]
 
-    def load_image(self, path: str, w: int, h: int) -> pygame.Surface:
+    def load_image(self, path: Path, w: int, h: int) -> pygame.Surface:
         key = (path, w, h)
         if key in self._image_cache:
             return self._image_cache[key]

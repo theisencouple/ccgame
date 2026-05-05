@@ -5,7 +5,7 @@ from character import Character
 
 
 def _section(rows=5, cols=5):
-    grid = [[GenericArea(f"{r},{c}") for c in range(cols)] for r in range(rows)]
+    grid = [[GenericArea(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
     return Section(grid)
 
 

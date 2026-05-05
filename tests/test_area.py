@@ -15,54 +15,52 @@ class TestCoordinates:
 
 class TestArea:
     def test_tile_color_unvisited_is_dimmed(self):
-        area = Area("field", color=(45, 105, 42))
-        color = area.tile_color()
-        assert color == (10, 70, 7)
+        area = Area("field", "desc", color=(45, 105, 42))
+        assert area.tile_color() == (10, 70, 7)
 
     def test_tile_color_visited_is_full(self):
-        area = Area("field", color=(45, 105, 42))
+        area = Area("field", "desc", color=(45, 105, 42))
         area.visited = True
         assert area.tile_color() == (45, 105, 42)
 
     def test_tile_color_clamps_at_zero(self):
-        area = Area("dark", color=(10, 10, 10))
-        color = area.tile_color()
-        assert all(c >= 0 for c in color)
+        area = Area("dark", "desc", color=(10, 10, 10))
+        assert all(c >= 0 for c in area.tile_color())
 
     def test_enter_marks_visited(self):
-        area = Area("field", description="An open field.")
+        area = Area("field", "An open field.")
         area.enter(MagicMock())
         assert area.visited is True
 
     def test_enter_calls_say(self):
-        area = Area("field", description="An open field.")
+        area = Area("field", "An open field.")
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_called_once_with("An open field.")
 
-    def test_enter_no_say_without_description(self):
-        area = Area("field")
+    def test_enter_no_say_with_empty_description(self):
+        area = Area("field", "")
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_not_called()
 
     def test_enter_only_says_once(self):
-        area = Area("field", description="An open field.")
+        area = Area("field", "An open field.")
         ui = MagicMock()
         area.enter(ui)
         area.enter(ui)
         ui.say.assert_called_once()
 
     def test_default_title(self):
-        assert Area("dark forest").title == "Dark Forest"
+        assert Area("dark forest", "desc").title == "Dark Forest"
 
     def test_custom_title(self):
-        assert Area("x", title="Custom").title == "Custom"
+        assert Area("x", "desc", title="Custom").title == "Custom"
 
 
 class TestSection:
     def _section(self, rows=3, cols=3):
-        grid = [[GenericArea(f"{r},{c}") for c in range(cols)] for r in range(rows)]
+        grid = [[GenericArea(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
         return Section(grid), grid
 
     def test_get_area(self):

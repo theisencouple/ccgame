@@ -41,7 +41,7 @@ def main():
                 character.handle_key(event.key, ui)
 
         ui.clear()
-        starting_section.draw_map(ui, character.coordinates.row, character.coordinates.col)
+        character.section.draw_map(ui, character.coordinates.row, character.coordinates.col)
         character.draw(ui)
         ui.MESSAGES_PANEL.draw(ui)
         ui.flip()

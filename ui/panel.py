@@ -1,6 +1,7 @@
 import pygame
 from pathlib import Path
 from .base import UIBase
+from . import colors
 
 
 class Panel:
@@ -12,10 +13,10 @@ class Panel:
         self.title = title
 
     def draw(self, ui: UIBase) -> None:
-        pygame.draw.rect(ui.screen, ui.PANEL, (self.x, self.y, self.w, self.h), border_radius=6)
-        pygame.draw.rect(ui.screen, ui.BORDER, (self.x, self.y, self.w, self.h), width=1, border_radius=6)
+        pygame.draw.rect(ui.screen, colors.PANEL, (self.x, self.y, self.w, self.h), border_radius=6)
+        pygame.draw.rect(ui.screen, colors.BORDER, (self.x, self.y, self.w, self.h), width=1, border_radius=6)
         if self.title:
-            lbl = ui.font.render(f" {self.title} ", True, ui.YELLOW, ui.PANEL)
+            lbl = ui.font.render(f" {self.title} ", True, colors.YELLOW, colors.PANEL)
             ui.screen.blit(lbl, (self.x + 10, self.y - 9))
 
     def load_image(self, ui: UIBase, path: Path) -> None:
@@ -52,10 +53,10 @@ class MessagePanel(Panel):
         end = len(all_lines) - self._scroll
         start = max(0, end - max_lines)
         for i, line in enumerate(all_lines[start:end]):
-            ui.blit(line, ui.GREEN, inner_x, inner_y + i * lh)
+            ui.blit(line, colors.GREEN, inner_x, inner_y + i * lh)
 
         if self._scroll > 0:
             ui.blit(
                 f"▲ {self._scroll} lines above (PgUp/PgDn)",
-                ui.DIM, inner_x, self.y + self.h - lh - 4,
+                colors.DIM, inner_x, self.y + self.h - lh - 4,
             )

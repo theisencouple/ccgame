@@ -1,4 +1,4 @@
-from .base import Section
+from .base import Section, Area
 from .field import Field
 from .forest import Forest
 from .cave import Cave
@@ -8,7 +8,7 @@ from .strawberry_field import StrawberryField
 
 SIZE = 30
 
-grid = [[Field() for _ in range(SIZE)] for _ in range(SIZE)]
+grid: list[list[Area]] = [[Field() for _ in range(SIZE)] for _ in range(SIZE)]
 
 # Forest in the northwest
 for r in range(2, 13):

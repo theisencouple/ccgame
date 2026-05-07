@@ -1,7 +1,8 @@
 from pathlib import Path
 from typing import NamedTuple
 
-from ui.base import Color
+from ui import colors
+from ui.colors import Color
 from ui.ui import UI
 from ui.panel import Panel
 
@@ -14,7 +15,7 @@ class Coordinates(NamedTuple):
 
 class Area:
     def __init__(self, name: str, description: str,
-                 color: Color = (60, 60, 60),
+                 color: Color,
                  image: Path | None = None) -> None:
         self.name = name
         self.description = description
@@ -71,11 +72,11 @@ class Section:
                     area = self.areas[map_r][map_c]
                     area.render_minimap(ui, sx, sy)
                 except IndexError:
-                    ui.fill_rect(sx, sy, ui.TS, ui.TS, ui.TILE_NONE)
+                    ui.fill_rect(sx, sy, ui.TS, ui.TS, colors.TILE_NONE)
 
                 if map_r == px and map_c == py:
                     cx, cy = sx + ui.TS // 2, sy + ui.TS // 2
-                    ui.fill_rect(cx - 3, cy - 3, 6, 6, ui.PLAYER)
+                    ui.fill_rect(cx - 3, cy - 3, 6, 6, colors.PLAYER)
 
     def get_area_from_coordinates(self, coordinates: Coordinates) -> Area:
         if coordinates.row < 0 or coordinates.col < 0:

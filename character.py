@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pygame
 from areas.base import Section, Area, Coordinates
+from ui import colors
 from ui.ui import UI
 
 
@@ -18,8 +19,8 @@ class Character:
         x, y = ui.AX + 8, ui.AY + 10
         lh = ui.font.get_linesize()
         for key, label in self.get_actions():
-            ui.blit(f"[{key}]", ui.YELLOW, x, y)
-            ui.blit(f" {label}", ui.TEXT, x + ui.font.size(f"[{key}]")[0], y)
+            ui.blit(f"[{key}]", colors.YELLOW, x, y)
+            ui.blit(f" {label}", colors.TEXT, x + ui.font.size(f"[{key}]")[0], y)
             y += lh + 2
         self.get_area().render_panel(ui, ui.AREA_PANEL)
 

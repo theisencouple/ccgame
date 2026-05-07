@@ -1,8 +1,8 @@
 from pathlib import Path
 from .base import Area
-from ui.ui import UI
+from ui import colors
 
 
 class Village(Area):
     def __init__(self) -> None:
-        super().__init__("village", "A small village.", color=UI.VILLAGE, image=Path("assets/village.png"))
+        super().__init__("village", "A small village.", color=colors.VILLAGE, image=Path("assets/village.png"))

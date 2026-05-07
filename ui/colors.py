@@ -1,0 +1,18 @@
+Color = tuple[int, int, int]
+
+BG: Color = (14, 16, 22)
+PANEL: Color = (24, 27, 38)
+BORDER: Color = (55, 60, 80)
+TEXT: Color = (195, 200, 215)
+DIM: Color = (100, 105, 125)
+GREEN: Color = (110, 200, 110)
+YELLOW: Color = (220, 200, 90)
+PLAYER: Color = (255, 225, 60)
+TILE_NONE: Color = (10, 11, 17)
+FIELD: Color = (45, 105, 42)
+FOREST: Color = (28, 78, 38)
+CAVE: Color = (75, 65, 55)
+LAKE: Color = (35, 72, 148)
+VILLAGE: Color = (135, 100, 55)
+STRAWBERRY: Color = (148, 52, 72)
+PLAINS: Color = (60, 60, 60)

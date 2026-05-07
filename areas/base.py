@@ -77,6 +77,7 @@ class Section:
                 if map_r == px and map_c == py:
                     cx, cy = sx + ui.TS // 2, sy + ui.TS // 2
                     ui.fill_rect(cx - 3, cy - 3, 6, 6, colors.PLAYER)
+        ui.MAP_PANEL.draw_title(ui)
 
     def get_area_from_coordinates(self, coordinates: Coordinates) -> Area:
         if coordinates.row < 0 or coordinates.col < 0:

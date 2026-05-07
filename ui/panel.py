@@ -5,27 +5,41 @@ from . import colors
 
 
 class Panel:
-    def __init__(self, x: int, y: int, w: int, h: int, title: str = "") -> None:
+    def __init__(self, x: int, y: int, w: int, h: int) -> None:
         self.x = x
         self.y = y
         self.w = w
         self.h = h
-        self.title = title
 
     def draw(self, ui: UIBase) -> None:
         pygame.draw.rect(ui.screen, colors.PANEL, (self.x, self.y, self.w, self.h), border_radius=6)
         pygame.draw.rect(ui.screen, colors.BORDER, (self.x, self.y, self.w, self.h), width=1, border_radius=6)
-        if self.title:
-            lbl = ui.font.render(f" {self.title} ", True, colors.YELLOW, colors.PANEL)
-            ui.screen.blit(lbl, (self.x + 10, self.y - 9))
 
     def load_image(self, ui: UIBase, path: Path) -> None:
-        img = ui.load_image(path, self.w - 4, self.h - 16)
-        ui.screen.blit(img, (self.x + 2, self.y + 14))
+        w, h = self.w - 2, self.h - 2
+        img = ui.load_image(path, w, h).copy().convert_alpha()
+        mask = pygame.Surface((w, h), pygame.SRCALPHA)
+        pygame.draw.rect(mask, (255, 255, 255, 255), (0, 0, w, h), border_radius=5)
+        img.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+        ui.screen.blit(img, (self.x + 1, self.y + 1))
 
 
-class MessagePanel(Panel):
-    def __init__(self, x: int, y: int, w: int, h: int, title: str = "") -> None:
+class PanelWithTitle(Panel):
+    def __init__(self, x: int, y: int, w: int, h: int, title: str) -> None:
+        super().__init__(x, y, w, h)
+        self.title = title
+
+    def draw_title(self, ui: UIBase) -> None:
+        lbl = ui.font.render(f" {self.title} ", True, colors.YELLOW, colors.PANEL)
+        ui.screen.blit(lbl, (self.x + 10, self.y - 9))
+
+    def draw(self, ui: UIBase) -> None:
+        super().draw(ui)
+        self.draw_title(ui)
+
+
+class MessagePanel(PanelWithTitle):
+    def __init__(self, x: int, y: int, w: int, h: int, title: str) -> None:
         super().__init__(x, y, w, h, title)
         self.messages: list[str] = []
         self._scroll: int = 0

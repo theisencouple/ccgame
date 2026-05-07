@@ -1,4 +1,4 @@
-from area import Section
+from .base import Section
 from .field import Field
 from .forest import Forest
 from .cave import Cave

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import pygame
-from area import Section, Area, Coordinates
+from areas.base import Section, Area, Coordinates
 from ui.ui import UI
 
 

@@ -22,12 +22,8 @@ class UIBase:
     VILLAGE: Color = (135, 100, 55)
     STRAWBERRY: Color = (148, 52, 72)
 
-    def __init__(self) -> None:
+    def __init__(self, screen: pygame.Surface) -> None:
         self._image_cache: dict[tuple[Path, int, int], pygame.Surface] = {}
-        self.screen: pygame.Surface | None = None
-        self.font: pygame.font.Font | None = None
-
-    def init(self, screen: pygame.Surface) -> None:
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 13)
 

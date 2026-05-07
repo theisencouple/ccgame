@@ -1,10 +1,10 @@
 from pathlib import Path
 from typing import NamedTuple
 
+from ui.base import Color
 from ui.ui import UI
 from ui.panel import Panel
 
-_VISITED_DIM = 35
 
 
 class Coordinates(NamedTuple):
@@ -14,7 +14,7 @@ class Coordinates(NamedTuple):
 
 class Area:
     def __init__(self, name: str, description: str,
-                 color: tuple[int, int, int] = (60, 60, 60),
+                 color: Color = (60, 60, 60),
                  image: Path | None = None) -> None:
         self.name = name
         self.description = description
@@ -22,10 +22,17 @@ class Area:
         self.image = image
         self.visited = False
 
-    def tile_color(self) -> tuple[int, ...]:
+    def _dim_color(self, c: int) -> int:
+        _VISITED_DIM = 35
+        return max(0, c - _VISITED_DIM)
+
+    def tile_color(self) -> Color:
         if self.visited:
             return self.color
-        return tuple(max(0, c - _VISITED_DIM) for c in self.color)
+
+        return (self._dim_color(self.color[0]),
+                self._dim_color(self.color[1]),
+                self._dim_color(self.color[2]))
 
     def enter(self, ui: UI) -> None:
         if not self.visited:
@@ -62,12 +69,8 @@ class Section:
                     if map_r < 0 or map_c < 0:
                         raise IndexError
                     area = self.areas[map_r][map_c]
-                except IndexError:
-                    area = None
-
-                if area:
                     area.render_minimap(ui, sx, sy)
-                else:
+                except IndexError:
                     ui.fill_rect(sx, sy, ui.TS, ui.TS, ui.TILE_NONE)
 
                 if map_r == px and map_c == py:

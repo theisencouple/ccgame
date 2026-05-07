@@ -3,19 +3,18 @@ import sys
 import pygame
 
 from ui.ui import UI
-from area import Coordinates
+from areas.base import Coordinates
 from character import Character
 from areas.starting_area import starting_section
 
 
 pygame.init()
 
-ui = UI()
 screen = pygame.display.set_mode((UI.W, UI.H))
 pygame.display.set_caption("Adventure")
 FPS = 30
 
-ui.init(screen)
+ui = UI(screen)
 
 character = Character(starting_section)
 character.coordinates = Coordinates(15, 15)

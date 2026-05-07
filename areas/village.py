@@ -1,5 +1,5 @@
 from pathlib import Path
-from area import Area
+from .base import Area
 from ui.ui import UI
 
 

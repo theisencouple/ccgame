@@ -1,6 +1,6 @@
 import pygame
 from unittest.mock import MagicMock
-from area import Area, Section, Coordinates
+from areas.base import Area, Section, Coordinates
 from character import Character
 
 

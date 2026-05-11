@@ -14,6 +14,20 @@ import random
 SIZE = 64
 SCALE = 18.0  # controls biome size
 
+
+# -----------------------------
+# WORLD SEED (like Minecraft)
+# -----------------------------
+WORLD_SEED = random.randint(0, 999999)
+random.seed(WORLD_SEED)
+
+print("World Seed:", WORLD_SEED)
+
+# noise offsets so terrain changes
+SEED_X = random.randint(0, 100000)
+SEED_Y = random.randint(0, 100000)
+
+
 # generate terrain grid
 grid: list[list[Area]] = []
 
@@ -23,7 +37,11 @@ for r in range(SIZE):
     for c in range(SIZE):
 
         # Perlin noise value (-1 to 1)
-        biome = pnoise2(r / SCALE, c / SCALE, octaves=3)
+        biome = pnoise2(
+            (r + SEED_X) / SCALE,
+            (c + SEED_Y) / SCALE,
+            octaves=3
+        )
 
         # stretch the noise so high values are more common
         biome *= 1.4

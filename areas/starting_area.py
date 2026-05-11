@@ -11,98 +11,31 @@ from .superdeepcave import SuperDeepCave
 from noise import pnoise2
 import random
 
-SIZE = 64
-SCALE = 18.0  # controls biome size
+SIZE = 30
 
+grid: list[list[Area]] = [[Field() for _ in range(SIZE)] for _ in range(SIZE)]
 
-# -----------------------------
-# WORLD SEED (like Minecraft)
-# -----------------------------
-WORLD_SEED = random.randint(0, 999999)
-random.seed(WORLD_SEED)
+# Forest in the northwest
+for r in range(2, 13):
+    for c in range(1, 9):
+        grid[r][c] = Forest()
 
-print("World Seed:", WORLD_SEED)
+# Lake in the southeast
+for r in range(19, 27):
+    for c in range(19, 28):
+        grid[r][c] = Lake()
 
-# noise offsets so terrain changes
-SEED_X = random.randint(0, 100000)
-SEED_Y = random.randint(0, 100000)
+# Cave cluster east of center
+for r in range(8, 12):
+    for c in range(20, 24):
+        grid[r][c] = Cave()
 
+# Strawberry fields south of center
+for r in range(22, 26):
+    for c in range(8, 13):
+        grid[r][c] = StrawberryField()
 
-# generate terrain grid
-grid: list[list[Area]] = []
-
-for r in range(SIZE):
-    row: list[Area] = []
-
-    for c in range(SIZE):
-
-        # Perlin noise value (-1 to 1)
-        biome = pnoise2(
-            (r + SEED_X) / SCALE,
-            (c + SEED_Y) / SCALE,
-            octaves=3
-        )
-
-        # stretch the noise so high values are more common
-        biome *= 1.4
-
-        if biome < -0.3:
-            tile = Lake()
-
-        elif biome < -0.05:
-            tile = Field()
-
-        elif biome < 0.15:
-            tile = Forest()
-
-        elif biome < 0.30:
-            tile = StrawberryField()
-
-        elif biome < 0.45:
-            tile = Cave()
-
-        elif biome < 0.65:
-            tile = DeeperCave()
-
-        else:
-            tile = SuperDeepCave()
-
-        row.append(tile)
-
-    grid.append(row)
-
-
-# ------------------------------------------------
-# Guarantee at least one of each biome
-# ------------------------------------------------
-required_biomes = [
-    Forest,
-    Lake,
-    Cave,
-    StrawberryField,
-    DeeperCave,
-    SuperDeepCave
-]
-
-for biome_class in required_biomes:
-
-    found = False
-
-    for row in grid:
-        for tile in row:
-            if isinstance(tile, biome_class):
-                found = True
-                break
-        if found:
-            break
-
-    if not found:
-        r = random.randint(0, SIZE - 1)
-        c = random.randint(0, SIZE - 1)
-        grid[r][c] = biome_class()
-
-
-# village always at center
-grid[SIZE // 2][SIZE // 2] = Village()
+# Village at center (player start)
+grid[15][15] = Village()
 
 starting_section = Section(grid)

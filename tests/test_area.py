@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from areas.base import Area, Coordinates, Section
+from sections.base import Area, Coordinates, Section
 
 
 class TestCoordinates:

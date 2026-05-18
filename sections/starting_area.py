@@ -1,5 +1,6 @@
 from .base import Section
 from .village_section import village_section, gate
+from .cave_section import cave_section, gate
 from areas.base import Area
 from areas.field import Field
 from areas.forest import Forest

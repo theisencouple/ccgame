@@ -23,6 +23,10 @@ class Panel:
         img.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
         ui.screen.blit(img, (self.x + 1, self.y + 1))
 
+    def overlay_image(self, ui: UIBase, path: Path, x: int, y: int, w: int, h: int) -> None:
+        img = ui.load_image(path, w, h)
+        ui.screen.blit(img, (self.x + 1 + x, self.y + 1 + y))
+
 
 class PanelWithTitle(Panel):
     def __init__(self, x: int, y: int, w: int, h: int, title: str) -> None:

@@ -3,11 +3,8 @@ import sys
 import pygame
 
 from ui.ui import UI
-from areas.base import Coordinates
 from character import Character
-from areas.starting_area import starting_section
-
-
+from sections.starting_area import starting_section, village
 pygame.init()
 
 screen = pygame.display.set_mode((UI.W, UI.H))
@@ -16,9 +13,8 @@ FPS = 30
 
 ui = UI(screen)
 
-character = Character(starting_section)
-character.coordinates = Coordinates(15, 15)
-character.get_area().enter(ui)
+character = Character(starting_section, village)
+village.enter(ui)
 
 
 def main():
@@ -40,7 +36,7 @@ def main():
                 character.handle_key(event.key, ui)
 
         ui.clear()
-        character.section.draw_map(ui, character.coordinates.row, character.coordinates.col)
+        character.section.draw_map(ui, character.area)
         character.draw(ui)
         ui.MESSAGES_PANEL.draw(ui)
         ui.flip()

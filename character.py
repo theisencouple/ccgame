@@ -1,18 +1,24 @@
 from __future__ import annotations
 
 import pygame
-from areas.base import Section, Area, Coordinates
+from sections.base import Section, Enterable, Exitable
+from areas.base import Area, Interior
 from ui import colors
 from ui.ui import UI
 
 
 class Character:
-    def __init__(self, section: Section) -> None:
+    def __init__(self, section: Section, area: Area) -> None:
         self.section = section
-        self.coordinates = Coordinates(0, 0)
+        self.area = area
 
     def get_actions(self) -> list[tuple[str, str]]:
-        return [("arrow keys", "Move")]
+        actions: list[tuple[str, str]] = [("arrow keys", "Move")]
+        if isinstance(self.area, Enterable):
+            actions.append(("e", "Enter"))
+        if isinstance(self.area, Exitable):
+            actions.append(("e", "Exit"))
+        return actions
 
     def draw(self, ui: UI) -> None:
         ui.ACTIONS_PANEL.draw(ui)
@@ -22,24 +28,28 @@ class Character:
             ui.blit(f"[{key}]", colors.YELLOW, x, y)
             ui.blit(f" {label}", colors.TEXT, x + ui.font.size(f"[{key}]")[0], y)
             y += lh + 2
-        self.get_area().render_panel(ui, ui.AREA_PANEL)
+        self.area.render_panel(ui, ui.AREA_PANEL)
 
-    def get_area(self) -> Area:
-        return self.section.get_area_from_coordinates(self.coordinates)
+    def _handle_movement(self, key: int) -> tuple[Section, Area]:
+        if key == pygame.K_UP:
+            return self.section, self.section.get_north(self.area)
+        elif key == pygame.K_DOWN:
+            return self.section, self.section.get_south(self.area)
+        elif key == pygame.K_LEFT:
+            return self.section, self.section.get_west(self.area)
+        elif key == pygame.K_RIGHT:
+            return self.section, self.section.get_east(self.area)
+        elif key == pygame.K_e and isinstance(self.area, (Enterable, Exitable)):
+            return self.area.travel_to
+        raise ValueError("no movement")
 
-    def handle_key(self, key: int, ui: UI) -> bool:
+    def handle_key(self, key: int, ui: UI) -> None:
         try:
-            if key == pygame.K_UP:
-                area, self.coordinates = self.section.get_north(self.coordinates)
-            elif key == pygame.K_DOWN:
-                area, self.coordinates = self.section.get_south(self.coordinates)
-            elif key == pygame.K_LEFT:
-                area, self.coordinates = self.section.get_west(self.coordinates)
-            elif key == pygame.K_RIGHT:
-                area, self.coordinates = self.section.get_east(self.coordinates)
-            else:
-                return False
-            area.enter(ui)
+            section, dest = self._handle_movement(key)
+            if isinstance(self.area, Interior) and isinstance(dest, Interior):
+                ui.say("You can't go that way.")
+                return
+            self.section, self.area = section, dest
+            self.area.enter(ui)
         except (ValueError, IndexError):
             pass
-        return True

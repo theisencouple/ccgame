@@ -44,10 +44,10 @@ class UIBase:
         if key in self._image_cache:
             return self._image_cache[key]
         try:
-            raw = pygame.image.load(path).convert()
+            raw = pygame.image.load(path).convert_alpha()
             self._image_cache[key] = pygame.transform.scale(raw, (w, h))
         except Exception:
-            surf = pygame.Surface((w, h))
+            surf = pygame.Surface((w, h), pygame.SRCALPHA)
             surf.fill(colors.PANEL)
             self._image_cache[key] = surf
         return self._image_cache[key]

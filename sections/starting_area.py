@@ -7,6 +7,7 @@ from areas.cave import Cave
 from areas.lake import Lake
 from areas.village import Village
 from areas.strawberry_field import StrawberryField
+from areas.ruin import Ruin
 
 SIZE = 30
 
@@ -31,6 +32,10 @@ for r in range(8, 12):
 for r in range(22, 26):
     for c in range(8, 13):
         grid[r][c] = StrawberryField()
+
+grid[6][15] = Ruin()
+grid[6][16] = Ruin()
+grid[7][15] = Ruin()
 
 # Village at center (player start)
 village = Village()

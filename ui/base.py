@@ -21,6 +21,7 @@ class UIBase:
     LAKE: Color = (35, 72, 148)
     VILLAGE: Color = (135, 100, 55)
     STRAWBERRY: Color = (148, 52, 72)
+    GRAY: Color = (128, 128, 128)
 
     def __init__(self) -> None:
         self._image_cache: dict[tuple[Path, int, int], pygame.Surface] = {}

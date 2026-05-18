@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ui.colors import Color
+import pygame
 from ui.ui import UI
 from ui.panel import Panel
 
@@ -11,7 +11,7 @@ class Interior:
 
 class Area:
     def __init__(self, name: str, description: str,
-                 color: Color,
+                 color: pygame.Color,
                  image: Path | None = None) -> None:
         self.name = name
         self.description = description
@@ -23,13 +23,13 @@ class Area:
         _VISITED_DIM = 35
         return max(0, c - _VISITED_DIM)
 
-    def tile_color(self) -> Color:
+    def tile_color(self) -> pygame.Color:
         if self.visited:
             return self.color
 
-        return (self._dim_color(self.color[0]),
-                self._dim_color(self.color[1]),
-                self._dim_color(self.color[2]))
+        return pygame.Color(self._dim_color(self.color[0]),
+                            self._dim_color(self.color[1]),
+                            self._dim_color(self.color[2]))
 
     def enter(self, ui: UI) -> None:
         if not self.visited:

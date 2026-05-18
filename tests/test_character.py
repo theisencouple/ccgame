@@ -4,9 +4,11 @@ from areas.base import Area
 from sections.base import Section
 from character import Character
 
+_C = pygame.Color
+
 
 def _make(rows=5, cols=5, start_row=0, start_col=0):
-    grid = [[Area(f"{r},{c}", "", color=(0, 0, 0)) for c in range(cols)] for r in range(rows)]
+    grid = [[Area(f"{r},{c}", "", color=_C(0, 0, 0)) for c in range(cols)] for r in range(rows)]
     section = Section(grid)
     return Character(section, grid[start_row][start_col]), section.areas
 

@@ -2,7 +2,6 @@ import pygame
 from pathlib import Path
 
 from . import colors
-from .colors import Color
 
 
 class UIBase:
@@ -18,10 +17,10 @@ class UIBase:
     def flip(self) -> None:
         pygame.display.flip()
 
-    def blit(self, text: str, color: Color, x: int, y: int) -> None:
+    def blit(self, text: str, color: pygame.Color, x: int, y: int) -> None:
         self.screen.blit(self.font.render(text, True, color), (x, y))
 
-    def fill_rect(self, x: int, y: int, w: int, h: int, color: Color, **kwargs) -> None:
+    def fill_rect(self, x: int, y: int, w: int, h: int, color: pygame.Color, **kwargs) -> None:
         pygame.draw.rect(self.screen, color, (x, y, w, h), **kwargs)
 
     def wrap(self, text: str, max_w: int) -> list[str]:

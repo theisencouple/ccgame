@@ -1,8 +1,8 @@
 from pathlib import Path
-from area import Area
-from ui.ui import UI
+from .base import Area
+from ui import colors
 
 
 class StrawberryField(Area):
     def __init__(self) -> None:
-        super().__init__("strawberry field", "Wild strawberries grow here.", color=UI.STRAWBERRY, image=Path("assets/strawberry_field.png"))
+        super().__init__("strawberry field", "Wild strawberries grow here.", color=colors.STRAWBERRY, image=Path("assets/strawberry_field.png"))

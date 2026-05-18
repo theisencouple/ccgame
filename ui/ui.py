@@ -1,5 +1,5 @@
 from .base import UIBase
-from .panel import Panel, MessagePanel
+from .panel import Panel, PanelWithTitle, MessagePanel
 
 
 class UI(UIBase):
@@ -26,8 +26,8 @@ class UI(UIBase):
     LW = PW
     LH = H - LY - PAD
 
-    MAP_PANEL = Panel(MX, MY, MW, MH, "Map")
-    ACTIONS_PANEL = Panel(AX, AY, AW, AH, "Actions")
+    MAP_PANEL = PanelWithTitle(MX, MY, MW, MH, "Map")
+    ACTIONS_PANEL = PanelWithTitle(AX, AY, AW, AH, "Actions")
     AREA_PANEL = Panel(PX, PY, PW, PH)
     MESSAGES_PANEL = MessagePanel(LX, LY, LW, LH, "Messages")
 

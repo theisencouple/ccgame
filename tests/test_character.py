@@ -1,11 +1,11 @@
 import pygame
 from unittest.mock import MagicMock
-from area import Area, Section, Coordinates
+from sections.base import Area, Section, Coordinates
 from character import Character
 
 
 def _section(rows=5, cols=5):
-    grid = [[Area(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
+    grid = [[Area(f"{r},{c}", "", color=(0, 0, 0)) for c in range(cols)] for r in range(rows)]
     return Section(grid)
 
 

@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from area import Area, Coordinates, Section
+from sections.base import Area, Coordinates, Section
 
 
 class TestCoordinates:
@@ -28,24 +28,24 @@ class TestArea:
         assert all(c >= 0 for c in area.tile_color())
 
     def test_enter_marks_visited(self):
-        area = Area("field", "An open field.")
+        area = Area("field", "An open field.", color=(0, 0, 0))
         area.enter(MagicMock())
         assert area.visited is True
 
     def test_enter_calls_say(self):
-        area = Area("field", "An open field.")
+        area = Area("field", "An open field.", color=(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_called_once_with("An open field.")
 
     def test_enter_no_say_with_empty_description(self):
-        area = Area("field", "")
+        area = Area("field", "", color=(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_not_called()
 
     def test_enter_only_says_once(self):
-        area = Area("field", "An open field.")
+        area = Area("field", "An open field.", color=(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         area.enter(ui)
@@ -56,7 +56,7 @@ class TestArea:
 
 class TestSection:
     def _section(self, rows=3, cols=3):
-        grid = [[Area(f"{r},{c}", "") for c in range(cols)] for r in range(rows)]
+        grid = [[Area(f"{r},{c}", "", color=(0, 0, 0)) for c in range(cols)] for r in range(rows)]
         return Section(grid), grid
 
     def test_get_area(self):

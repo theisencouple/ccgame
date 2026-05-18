@@ -1,10 +1,12 @@
-from .base import Section, Area
-from .field import Field
-from .forest import Forest
-from .cave import Cave
-from .lake import Lake
-from .village import Village
-from .strawberry_field import StrawberryField
+from .base import Section
+from .village_section import village_section, gate
+from areas.base import Area
+from areas.field import Field
+from areas.forest import Forest
+from areas.cave import Cave
+from areas.lake import Lake
+from areas.village import Village
+from areas.strawberry_field import StrawberryField
 
 SIZE = 30
 
@@ -31,6 +33,10 @@ for r in range(22, 26):
         grid[r][c] = StrawberryField()
 
 # Village at center (player start)
-grid[15][15] = Village()
+village = Village()
+grid[15][15] = village
 
 starting_section = Section(grid)
+
+village.travel_to = (village_section, gate)
+gate.travel_to = (starting_section, village)

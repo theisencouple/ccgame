@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import pygame
-from areas.base import Section, Area, Coordinates
+from sections.base import Section, Enterable, Exitable
+from areas.base import Area, Coordinates
 from ui import colors
 from ui.ui import UI
 
@@ -12,7 +13,13 @@ class Character:
         self.coordinates = Coordinates(0, 0)
 
     def get_actions(self) -> list[tuple[str, str]]:
-        return [("arrow keys", "Move")]
+        actions = [("arrow keys", "Move")]
+        area = self.get_area()
+        if isinstance(area, Enterable):
+            actions.append(("e", "Enter"))
+        if isinstance(area, Exitable):
+            actions.append(("e", "Exit"))
+        return actions
 
     def draw(self, ui: UI) -> None:
         ui.ACTIONS_PANEL.draw(ui)
@@ -27,7 +34,7 @@ class Character:
     def get_area(self) -> Area:
         return self.section.get_area_from_coordinates(self.coordinates)
 
-    def handle_key(self, key: int, ui: UI) -> bool:
+    def handle_key(self, key: int, ui: UI) -> None:
         try:
             if key == pygame.K_UP:
                 area, self.coordinates = self.section.get_north(self.coordinates)
@@ -37,9 +44,13 @@ class Character:
                 area, self.coordinates = self.section.get_west(self.coordinates)
             elif key == pygame.K_RIGHT:
                 area, self.coordinates = self.section.get_east(self.coordinates)
+            elif key == pygame.K_e:
+                area = self.get_area()
+                if isinstance(area, (Enterable, Exitable)):
+                    self.section, area = area.travel_to
+                    self.coordinates = self.section.find(area)
             else:
-                return False
+                return
             area.enter(ui)
         except (ValueError, IndexError):
             pass
-        return True

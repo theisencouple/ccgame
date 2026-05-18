@@ -3,11 +3,8 @@ import sys
 import pygame
 
 from ui.ui import UI
-from areas.base import Coordinates
 from character import Character
-from areas.starting_area import starting_section
-
-
+from sections.starting_area import starting_section, village
 pygame.init()
 
 screen = pygame.display.set_mode((UI.W, UI.H))
@@ -17,7 +14,7 @@ FPS = 30
 ui = UI(screen)
 
 character = Character(starting_section)
-character.coordinates = Coordinates(15, 15)
+character.coordinates = starting_section.find(village)
 character.get_area().enter(ui)
 
 

@@ -1,14 +1,12 @@
 from pathlib import Path
-from typing import NamedTuple
 
 from ui.colors import Color
 from ui.ui import UI
 from ui.panel import Panel
 
 
-class Coordinates(NamedTuple):
-    row: int
-    col: int
+class Interior:
+    """Mixin that blocks direct movement between two Interior areas."""
 
 
 class Area:

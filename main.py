@@ -13,9 +13,8 @@ FPS = 30
 
 ui = UI(screen)
 
-character = Character(starting_section)
-character.coordinates = starting_section.find(village)
-character.get_area().enter(ui)
+character = Character(starting_section, village)
+village.enter(ui)
 
 
 def main():
@@ -37,7 +36,7 @@ def main():
                 character.handle_key(event.key, ui)
 
         ui.clear()
-        character.section.draw_map(ui, character.coordinates.row, character.coordinates.col)
+        character.section.draw_map(ui, character.area)
         character.draw(ui)
         ui.MESSAGES_PANEL.draw(ui)
         ui.flip()

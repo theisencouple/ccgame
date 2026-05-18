@@ -1,14 +1,15 @@
 from ui import colors
 from ui.ui import UI
 
-from areas.base import Area, Coordinates
+from areas.base import Area
 
 
 class Section:
     def __init__(self, areas: list[list[Area]]) -> None:
         self.areas = areas
 
-    def draw_map(self, ui: UI, px: int, py: int) -> None:
+    def draw_map(self, ui: UI, area: Area) -> None:
+        px, py = self._find(area)
         ui.MAP_PANEL.draw(ui)
         half = ui.MAP_VIEW // 2
 
@@ -22,8 +23,7 @@ class Section:
                 try:
                     if map_r < 0 or map_c < 0:
                         raise IndexError
-                    area = self.areas[map_r][map_c]
-                    area.render_minimap(ui, sx, sy)
+                    self.areas[map_r][map_c].render_minimap(ui, sx, sy)
                 except IndexError:
                     ui.fill_rect(sx, sy, ui.TS, ui.TS, colors.TILE_NONE)
 
@@ -32,35 +32,30 @@ class Section:
                     ui.fill_rect(cx - 3, cy - 3, 6, 6, colors.PLAYER)
         ui.MAP_PANEL.draw_title(ui)
 
-    def get_area_from_coordinates(self, coordinates: Coordinates) -> Area:
-        if coordinates.row < 0 or coordinates.col < 0:
-            raise IndexError(f"Coordinates out of bounds: {coordinates.row}, {coordinates.col}")
-        area = self.areas[coordinates.row][coordinates.col]
-        if not area:
-            raise ValueError(f"No area at {coordinates.row}, {coordinates.col}")
-        return area
+    def _get_area_at(self, area: Area, row_offset: int, col_offset: int) -> Area:
+        r, c = self._find(area)
+        nr, nc = r + row_offset, c + col_offset
+        if nr < 0 or nc < 0:
+            raise IndexError
+        return self.areas[nr][nc]
 
-    def get_north(self, coordinates: Coordinates) -> tuple[Area, Coordinates]:
-        c = Coordinates(coordinates.row - 1, coordinates.col)
-        return self.get_area_from_coordinates(c), c
+    def get_north(self, area: Area) -> Area:
+        return self._get_area_at(area, -1, 0)
 
-    def get_south(self, coordinates: Coordinates) -> tuple[Area, Coordinates]:
-        c = Coordinates(coordinates.row + 1, coordinates.col)
-        return self.get_area_from_coordinates(c), c
+    def get_south(self, area: Area) -> Area:
+        return self._get_area_at(area, 1, 0)
 
-    def get_west(self, coordinates: Coordinates) -> tuple[Area, Coordinates]:
-        c = Coordinates(coordinates.row, coordinates.col - 1)
-        return self.get_area_from_coordinates(c), c
+    def get_west(self, area: Area) -> Area:
+        return self._get_area_at(area, 0, -1)
 
-    def get_east(self, coordinates: Coordinates) -> tuple[Area, Coordinates]:
-        c = Coordinates(coordinates.row, coordinates.col + 1)
-        return self.get_area_from_coordinates(c), c
+    def get_east(self, area: Area) -> Area:
+        return self._get_area_at(area, 0, 1)
 
-    def find(self, area: Area) -> Coordinates:
+    def _find(self, area: Area) -> tuple[int, int]:
         for r, row in enumerate(self.areas):
             for c, a in enumerate(row):
                 if a is area:
-                    return Coordinates(r, c)
+                    return r, c
         raise ValueError(f"{area!r} not found in section")
 
 

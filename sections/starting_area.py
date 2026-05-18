@@ -1,9 +1,12 @@
 from .base import Section
 from .village_section import village_section, gate
+from .cave_section import cave_section, gate
 from areas.base import Area
 from areas.field import Field
 from areas.forest import Forest
 from areas.cave import Cave
+from areas.deepercave import DeeperCave
+from areas.superdeepcave import SuperDeepCave
 from areas.lake import Lake
 from areas.village import Village
 from areas.strawberry_field import StrawberryField
@@ -23,10 +26,20 @@ for r in range(19, 27):
     for c in range(19, 28):
         grid[r][c] = Lake()
 
-# Cave cluster east of center
-for r in range(8, 12):
-    for c in range(20, 24):
+#Cave
+for r in range(7, 16):
+    for c in range(14, 25):
         grid[r][c] = Cave()
+
+#MiddleCave
+for r in range(9, 14):
+    for c in range(16, 23):
+        grid[r][c] = DeeperCave()
+
+#CenterCave
+for r in range(10, 13):
+    for c in range(18, 21):
+        grid[r][c] = SuperDeepCave()
 
 # Strawberry fields south of center
 for r in range(22, 26):

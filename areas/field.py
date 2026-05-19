@@ -13,6 +13,6 @@ class Field(Area):
         surf = ui.load_image(Path("assets/plains_16x16.png"), ui.TS, ui.TS).copy()
         if not self.visited:
             dim = pygame.Surface((ui.TS, ui.TS))
-            dim.fill((80, 80, 80))
+            dim.fill((160, 160, 160))
             surf.blit(dim, (0, 0), special_flags=pygame.BLEND_MULT)
         return surf

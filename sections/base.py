@@ -18,7 +18,7 @@ class Section:
         for r, row in enumerate(self.areas):
             for c, tile in enumerate(row):
                 dr, dc = r - px, c - py
-                if abs(dr) > half or abs(dc) > half:
+                if not (-half <= dr < half and -half <= dc < half):
                     continue
                 sx = ui.MX + (dc + half) * ui.TS
                 sy = ui.MY + (dr + half) * ui.TS

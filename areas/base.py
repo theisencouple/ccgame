@@ -9,6 +9,10 @@ class Interior:
     """Mixin that blocks direct movement between two Interior areas."""
 
 
+class Impassable:
+    """Mixin for areas that cannot be entered (walls)."""
+
+
 class Area:
     def __init__(self, name: str, description: str,
                  color: pygame.Color,

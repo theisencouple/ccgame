@@ -1,27 +1,32 @@
 from .base import Section
 from areas.base import Area
 from areas.village_street import VillageStreet
-from areas.blacksmith import Blacksmith
-from areas.village_house import VillageHouse
+from areas.village_house import VillageHouseWall, VillageHouseDoor, VillageHouseInterior
+from areas.blacksmith import BlacksmithWall, BlacksmithDoor, BlacksmithInterior
 from areas.village_gate import VillageGate
 
-# Layout (row, col):
-#   col:  0        1        2        3        4
-# row 0: house    house    street   house    house
-# row 1: street   street   street   street   street   <- main road
-# row 2: smith    street   street   house    house
-# row 3: house    street   exit     street   house   <- entry/exit
-
-_S = VillageStreet
-_H = VillageHouse
+_S  = VillageStreet
+_HW = VillageHouseWall
+_HD = VillageHouseDoor
+_HI = VillageHouseInterior
+_BW = BlacksmithWall
+_BD = BlacksmithDoor
+_BI = BlacksmithInterior
 
 gate = VillageGate()
 
+# fmt: off
 grid: list[list[Area]] = [
-    [_H(), _H(), _S(),         _H(), _H()],
-    [_S(), _S(), _S(),         _S(), _S()],
-    [Blacksmith(), _S(), _S(), _H(), _H()],
-    [_H(), _S(), gate,         _S(), _H()],
+    [_HW(), _HW(), _HW(), _S(),  _HW(), _HW(), _HW()],  # row 0
+    [_HW(), _HI(), _HW(), _S(),  _HW(), _HI(), _HW()],  # row 1
+    [_HW(), _HD(), _HW(), _S(),  _HW(), _HD(), _HW()],  # row 2
+    [_S(),  _S(),  _S(),  _S(),  _S(),  _S(),  _S() ],  # row 3
+    [_BW(), _BW(), _BW(), _S(),  _HW(), _HW(), _HW()],  # row 4
+    [_BW(), _BI(), _BW(), _S(),  _HW(), _HI(), _HW()],  # row 5
+    [_BW(), _BD(), _BW(), _S(),  _HW(), _HD(), _HW()],  # row 6
+    [_S(),  _S(),  _S(),  _S(),  _S(),  _S(),  _S() ],  # row 7
+    [_S(),  _S(),  gate,  _S(),  _S(),  _S(),  _S() ],  # row 8
 ]
+# fmt: on
 
 village_section = Section(grid)

@@ -37,8 +37,10 @@ class Area:
             if self.description:
                 ui.say(self.description)
 
-    def render_minimap(self, ui: UI, x: int, y: int) -> None:
-        ui.fill_rect(x, y, ui.TS, ui.TS, self.tile_color())
+    def render_minimap(self, ui: UI) -> pygame.Surface:
+        surf = pygame.Surface((ui.TS, ui.TS))
+        surf.fill(self.tile_color())
+        return surf
 
     def render_panel(self, ui: UI, panel: Panel) -> None:
         panel.title = self.name.title()

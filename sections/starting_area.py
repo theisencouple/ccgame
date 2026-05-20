@@ -1,13 +1,10 @@
 from .base import Section
 from .village_section import village_section, gate
-from .cave_section import cave_section, gate
+from .cave_section import cave_section, cave_opening
 from areas.base import Area
 from areas.field import Field
 from areas.forest import Forest
 from areas.cave import Cave
-from areas.deepercave import DeeperCave
-from areas.superdeepcave import SuperDeepCave
-from areas.lake import Lake
 from areas.lake import Lake, LakeEdge, LakeCorner
 from areas.village import Village
 from areas.strawberry_field import StrawberryField
@@ -39,20 +36,8 @@ grid[19][27] = LakeCorner(270)  # top-right
 grid[26][19] = LakeCorner(90)   # bottom-left
 grid[26][27] = LakeCorner(180)  # bottom-right
 
-# Cave cluster east of center
-for r in range(8, 12):
-    for c in range(20, 24):
-        grid[r][c] = Cave()
-
-#MiddleCave
-for r in range(9, 14):
-    for c in range(16, 23):
-        grid[r][c] = DeeperCave()
-
-#CenterCave
-for r in range(10, 13):
-    for c in range(18, 21):
-        grid[r][c] = SuperDeepCave()
+cave = Cave()
+grid[8][20] = cave
 
 # Strawberry fields south of center
 for r in range(22, 26):
@@ -71,3 +56,7 @@ starting_section = Section(grid)
 
 village.travel_to = (village_section, gate)
 gate.travel_to = (starting_section, village)
+
+
+cave.travel_to = (cave_section, cave_opening)
+cave_opening.travel_to = (starting_section, cave)

@@ -9,13 +9,13 @@ _C = Cave
 _DC = DeeperCave
 _SDC = SuperDeepCave
 
-gate = Entrance()
+cave_opening= Entrance()
 
 grid: list[list[Area]] = [
     [_SDC(), _SDC(), _SDC(),_DC(), _DC()],
     [_SDC(), _SDC(), _DC(),_DC(), _DC()],
     [_DC(), _DC(), _C(), _C(), _C()],
-    [_DC(), _C(), gate,_C(), _C()],
+    [_DC(), _C(), cave_opening,_C(), _C()],
 ]
 
 cave_section = Section(grid)

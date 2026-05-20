@@ -5,7 +5,7 @@ from ui import colors
 
 class BlacksmithDoor(Area):
     def __init__(self) -> None:
-        super().__init__("smithy door", "The entrance to the blacksmith's forge.", colors.BLACKSMITH_DOOR)
+        super().__init__("smithy door", "The entrance to the blacksmith's forge.", colors.BLACKSMITH_DOOR, image=Path("assets/blacksmith_door.png"))
 
 
 class BlacksmithInterior(Area):

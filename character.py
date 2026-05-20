@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pygame
 from sections.base import Section, Enterable, Exitable
-from areas.base import Area, Interior, Impassable
+from areas.base import Area, Impassable
 from ui import colors
 from ui.ui import UI
 
@@ -47,10 +47,9 @@ class Character:
         try:
             section, dest = self._handle_movement(key)
             if isinstance(dest, Impassable):
+                ui.say(f"The {dest.name} blocks your path.")
                 return
-            if isinstance(self.area, Interior) and isinstance(dest, Interior):
-                ui.say("You can't go that way.")
-                return
+
             self.section, self.area = section, dest
             self.area.enter(ui)
         except (ValueError, IndexError):

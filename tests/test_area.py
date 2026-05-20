@@ -8,38 +8,25 @@ _C = pygame.Color
 
 
 class TestArea:
-    def test_tile_color_unvisited_is_dimmed(self):
-        area = Area("field", "desc", color=_C(45, 105, 42))
-        assert area.tile_color() == (10, 70, 7)
-
-    def test_tile_color_visited_is_full(self):
-        area = Area("field", "desc", color=_C(45, 105, 42))
-        area.visited = True
-        assert area.tile_color() == (45, 105, 42)
-
-    def test_tile_color_clamps_at_zero(self):
-        area = Area("dark", "desc", color=_C(10, 10, 10))
-        assert all(c >= 0 for c in area.tile_color())
-
     def test_enter_marks_visited(self):
-        area = Area("field", "An open field.", color=_C(0, 0, 0))
+        area = Area("field", "An open field.", _C(0, 0, 0))
         area.enter(MagicMock())
         assert area.visited is True
 
     def test_enter_calls_say(self):
-        area = Area("field", "An open field.", color=_C(0, 0, 0))
+        area = Area("field", "An open field.", _C(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_called_once_with("An open field.")
 
     def test_enter_no_say_with_empty_description(self):
-        area = Area("field", "", color=_C(0, 0, 0))
+        area = Area("field", "", _C(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         ui.say.assert_not_called()
 
     def test_enter_only_says_once(self):
-        area = Area("field", "An open field.", color=_C(0, 0, 0))
+        area = Area("field", "An open field.", _C(0, 0, 0))
         ui = MagicMock()
         area.enter(ui)
         area.enter(ui)
@@ -48,7 +35,7 @@ class TestArea:
 
 class TestSection:
     def _section(self, rows=3, cols=3):
-        grid = [[Area(f"{r},{c}", "", color=_C(0, 0, 0)) for c in range(cols)] for r in range(rows)]
+        grid = [[Area(f"{r},{c}", "", _C(0, 0, 0)) for c in range(cols)] for r in range(rows)]
         return Section(grid), grid
 
     def test_get_north(self):

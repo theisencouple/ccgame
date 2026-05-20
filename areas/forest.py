@@ -7,7 +7,7 @@ from ui.panel import Panel
 
 class Forest(Area):
     def __init__(self) -> None:
-        super().__init__("forest", "Dense trees surround you.", color=colors.FOREST, image=Path("assets/forest.png"))
+        super().__init__("forest", "Dense trees surround you.", colors.FOREST, image=Path("assets/forest.png"))
 
 
     def render_panel(self, ui: UI, panel: Panel) -> None:

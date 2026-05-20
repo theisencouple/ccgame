@@ -9,27 +9,21 @@ class Interior:
     """Mixin that blocks direct movement between two Interior areas."""
 
 
+class Impassable:
+    """Mixin for areas that cannot be entered (walls)."""
+
+
 class Area:
     def __init__(self, name: str, description: str,
-                 color: pygame.Color,
-                 image: Path | None = None) -> None:
+                 minimap: Path | pygame.Color,
+                 image: Path | None = None,
+                 minimap_rotation: int = 0) -> None:
         self.name = name
         self.description = description
-        self.color = color
+        self.minimap = minimap
+        self.minimap_rotation = minimap_rotation
         self.image = image
         self.visited = False
-
-    def _dim_color(self, c: int) -> int:
-        _VISITED_DIM = 35
-        return max(0, c - _VISITED_DIM)
-
-    def tile_color(self) -> pygame.Color:
-        if self.visited:
-            return self.color
-
-        return pygame.Color(self._dim_color(self.color[0]),
-                            self._dim_color(self.color[1]),
-                            self._dim_color(self.color[2]))
 
     def enter(self, ui: UI) -> None:
         if not self.visited:
@@ -37,8 +31,17 @@ class Area:
             if self.description:
                 ui.say(self.description)
 
-    def render_minimap(self, ui: UI, x: int, y: int) -> None:
-        ui.fill_rect(x, y, ui.TS, ui.TS, self.tile_color())
+    def render_minimap(self, ui: UI) -> pygame.Surface:
+        if isinstance(self.minimap, Path):
+            surf = pygame.transform.rotate(ui.load_image(self.minimap, ui.TS, ui.TS), self.minimap_rotation)
+        else:
+            surf = pygame.Surface((ui.TS, ui.TS))
+            surf.fill(self.minimap)
+        if not self.visited:
+            dim = pygame.Surface((ui.TS, ui.TS))
+            dim.fill(pygame.Color(160, 160, 160))
+            surf.blit(dim, (0, 0), special_flags=pygame.BLEND_MULT)
+        return surf
 
     def render_panel(self, ui: UI, panel: Panel) -> None:
         panel.title = self.name.title()

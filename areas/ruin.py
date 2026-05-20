@@ -5,4 +5,4 @@ from ui import colors
 
 class Ruin(Area):
     def __init__(self) -> None:
-        super().__init__("Ruin", "A ruin.", color=colors.GRAY, image=Path("assets/ruin.png"))
+        super().__init__("Ruin", "A ruin.", colors.GRAY, image=Path("assets/ruin.png"))

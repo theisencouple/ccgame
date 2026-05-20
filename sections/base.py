@@ -13,23 +13,20 @@ class Section:
         ui.MAP_PANEL.draw(ui)
         half = ui.MAP_VIEW // 2
 
-        for row in range(ui.MAP_VIEW):
-            for col in range(ui.MAP_VIEW):
-                map_r = px - half + row
-                map_c = py - half + col
-                sx = ui.MX + col * ui.TS
-                sy = ui.MY + row * ui.TS
+        ui.fill_rect(ui.MX, ui.MY, ui.MAP_VIEW * ui.TS, ui.MAP_VIEW * ui.TS, colors.TILE_NONE)
 
-                try:
-                    if map_r < 0 or map_c < 0:
-                        raise IndexError
-                    self.areas[map_r][map_c].render_minimap(ui, sx, sy)
-                except IndexError:
-                    ui.fill_rect(sx, sy, ui.TS, ui.TS, colors.TILE_NONE)
-
-                if map_r == px and map_c == py:
+        for r, row in enumerate(self.areas):
+            for c, tile in enumerate(row):
+                dr, dc = r - px, c - py
+                if not (-half <= dr < half and -half <= dc < half):
+                    continue
+                sx = ui.MX + (dc + half) * ui.TS
+                sy = ui.MY + (dr + half) * ui.TS
+                ui.screen.blit(tile.render_minimap(ui), (sx, sy))
+                if r == px and c == py:
                     cx, cy = sx + ui.TS // 2, sy + ui.TS // 2
                     ui.fill_rect(cx - 3, cy - 3, 6, 6, colors.PLAYER)
+
         ui.MAP_PANEL.draw_title(ui)
 
     def _get_area_at(self, area: Area, row_offset: int, col_offset: int) -> Area:

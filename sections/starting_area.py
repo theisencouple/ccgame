@@ -7,6 +7,7 @@ from areas.cave import Cave
 from areas.deepercave import DeeperCave
 from areas.superdeepcave import SuperDeepCave
 from areas.lake import Lake
+from areas.lake import Lake, LakeEdge, LakeCorner
 from areas.village import Village
 from areas.strawberry_field import StrawberryField
 from areas.ruin import Ruin
@@ -20,14 +21,26 @@ for r in range(2, 13):
     for c in range(1, 9):
         grid[r][c] = Forest()
 
-# Lake in the southeast
+# Lake in the southeast — interior, edges, corners
 for r in range(19, 27):
     for c in range(19, 28):
         grid[r][c] = Lake()
 
-#Cave
-for r in range(7, 16):
-    for c in range(14, 25):
+for c in range(20, 27):
+    grid[19][c] = LakeEdge(0)    # top
+    grid[26][c] = LakeEdge(180)  # bottom
+for r in range(20, 26):
+    grid[r][19] = LakeEdge(90)   # left
+    grid[r][27] = LakeEdge(270)  # right
+
+grid[19][19] = LakeCorner(0)    # top-left
+grid[19][27] = LakeCorner(270)  # top-right
+grid[26][19] = LakeCorner(90)   # bottom-left
+grid[26][27] = LakeCorner(180)  # bottom-right
+
+# Cave cluster east of center
+for r in range(8, 12):
+    for c in range(20, 24):
         grid[r][c] = Cave()
 
 #MiddleCave

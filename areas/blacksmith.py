@@ -1,8 +1,13 @@
 from pathlib import Path
-from .base import Area, Interior
+from .base import Area
 from ui import colors
 
 
-class Blacksmith(Area, Interior):
+class BlacksmithDoor(Area):
     def __init__(self) -> None:
-        super().__init__("blacksmith", "Heat and hammering fill the air.", color=colors.BLACKSMITH, image=Path("assets/blacksmith.png"))
+        super().__init__("smithy door", "The entrance to the blacksmith's forge.", colors.BLACKSMITH_DOOR, image=Path("assets/blacksmith_door.png"))
+
+
+class BlacksmithInterior(Area):
+    def __init__(self) -> None:
+        super().__init__("blacksmith", "Heat and hammering fill the air.", colors.BLACKSMITH_FLOOR, image=Path("assets/blacksmith.png"))

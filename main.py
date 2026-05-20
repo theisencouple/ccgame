@@ -14,7 +14,7 @@ FPS = 30
 ui = UI(screen)
 
 character = Character(starting_section, village)
-village.enter(ui)
+character.area.enter(ui)
 
 
 def main():

@@ -31,12 +31,15 @@ class Area:
             if self.description:
                 ui.say(self.description)
 
-    def render_minimap(self, ui: UI) -> pygame.Surface:
+    def base_minimap(self, ui: UI) -> pygame.Surface:
         if isinstance(self.minimap, Path):
-            surf = pygame.transform.rotate(ui.load_image(self.minimap, ui.TS, ui.TS), self.minimap_rotation)
-        else:
-            surf = pygame.Surface((ui.TS, ui.TS))
-            surf.fill(self.minimap)
+            return pygame.transform.rotate(ui.load_image(self.minimap, ui.TS, ui.TS), self.minimap_rotation).copy()
+        surf = pygame.Surface((ui.TS, ui.TS))
+        surf.fill(self.minimap)
+        return surf
+
+    def render_minimap(self, ui: UI) -> pygame.Surface:
+        surf = self.base_minimap(ui)
         if not self.visited:
             dim = pygame.Surface((ui.TS, ui.TS))
             dim.fill(pygame.Color(160, 160, 160))
@@ -48,3 +51,20 @@ class Area:
         panel.draw(ui)
         if self.image:
             panel.load_image(ui, self.image)
+
+
+class AreaWithOverlay(Area):
+    def __init__(self, name: str, description: str,
+                 minimap: Path | pygame.Color,
+                 minimap_overlay: Path,
+                 image: Path | None = None,
+                 minimap_rotation: int = 0,
+                 overlay_rotation: int = 0) -> None:
+        super().__init__(name, description, minimap, image, minimap_rotation)
+        self.minimap_overlay = minimap_overlay
+        self.overlay_rotation = overlay_rotation
+
+    def base_minimap(self, ui: UI) -> pygame.Surface:
+        surf = super().base_minimap(ui)
+        surf.blit(pygame.transform.rotate(ui.load_image(self.minimap_overlay, ui.TS, ui.TS), self.overlay_rotation), (0, 0))
+        return surf

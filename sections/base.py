@@ -48,11 +48,3 @@ class Section:
         raise ValueError(f"{area!r} not found in section")
 
 
-class Enterable:
-    """Mixin for areas that transport the player into another section."""
-    travel_to: tuple[Section, Area]
-
-
-class Exitable:
-    """Mixin for areas that transport the player out to another section."""
-    travel_to: tuple[Section, Area]

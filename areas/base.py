@@ -7,6 +7,9 @@ from ui.panel import Panel
 
 
 class Area:
+    travel_to_enter: tuple | None = None
+    travel_to_exit: tuple | None = None
+
     def __init__(self, name: str, description: str,
                  minimap: Path | pygame.Color,
                  image: Path | None = None,

@@ -55,5 +55,5 @@ grid[15][15] = village
 
 starting_section = Section(grid)
 
-village.travel_to = (village_section, gate)
-gate.travel_to = (starting_section, village)
+village.travel_to_enter = (village_section, gate)
+gate.travel_to_exit = (starting_section, village)

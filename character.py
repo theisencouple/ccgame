@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import pygame
-from sections.base import Section, Enterable, Exitable
+from sections.base import Section
 from areas.base import Area
 from areas.direction import Direction
 from ui import colors
 from ui.ui import UI
+
+
+class NoMovement(Exception):
+    pass
 
 
 class Character:
@@ -15,9 +19,9 @@ class Character:
 
     def get_actions(self) -> list[tuple[str, str]]:
         actions: list[tuple[str, str]] = [("arrow keys", "Move")]
-        if isinstance(self.area, Enterable):
+        if self.area.travel_to_enter is not None:
             actions.append(("e", "Enter"))
-        if isinstance(self.area, Exitable):
+        if self.area.travel_to_exit is not None:
             actions.append(("e", "Exit"))
         return actions
 
@@ -38,17 +42,18 @@ class Character:
             if direction in self.area.barriers or direction.opposite in dest.barriers:
                 raise ValueError(f"The {dest.name} blocks your path.")
             return self.section, dest
-        elif key == pygame.K_e and isinstance(self.area, (Enterable, Exitable)):
-            return self.area.travel_to
-        raise ValueError("no movement")
+        elif key == pygame.K_e:
+            dest = self.area.travel_to_enter or self.area.travel_to_exit
+            if dest is not None:
+                return dest
+        raise NoMovement
 
     def handle_key(self, key: int, ui: UI) -> None:
         try:
             section, dest = self._handle_movement(key)
             self.section, self.area = section, dest
             self.area.enter(ui)
-        except ValueError as e:
-            if str(e) != "no movement":
-                ui.say(str(e))
-        except IndexError:
+        except (NoMovement, IndexError):
             pass
+        except ValueError as e:
+            ui.say(str(e))

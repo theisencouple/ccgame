@@ -57,8 +57,9 @@ class AreaWithOverlay(Area):
                  minimap_overlay: Path,
                  image: Path | None = None,
                  rotation: int = 0,
-                 overlay_rotation: int = 0) -> None:
-        super().__init__(name, description, minimap, image, rotation)
+                 overlay_rotation: int = 0,
+                 barriers: list[Direction] = []) -> None:
+        super().__init__(name, description, minimap, image, rotation, barriers)
         self.minimap_overlay = minimap_overlay
         self.overlay_rotation = overlay_rotation
 

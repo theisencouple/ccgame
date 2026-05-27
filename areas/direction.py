@@ -16,8 +16,8 @@ class DirectionData:
 class Direction(Enum):
     NORTH = DirectionData(row=-1, col=0,  rotation=0,   key=pygame.K_UP)
     SOUTH = DirectionData(row=1,  col=0,  rotation=180, key=pygame.K_DOWN)
-    EAST  = DirectionData(row=0,  col=1,  rotation=90,  key=pygame.K_RIGHT)
-    WEST  = DirectionData(row=0,  col=-1, rotation=270, key=pygame.K_LEFT)
+    EAST  = DirectionData(row=0,  col=1,  rotation=270,  key=pygame.K_RIGHT)
+    WEST  = DirectionData(row=0,  col=-1, rotation=90, key=pygame.K_LEFT)
 
     @classmethod
     def key_map(cls) -> dict[int, Self]:

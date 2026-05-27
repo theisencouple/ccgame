@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import pygame
 from sections.base import Section, Enterable, Exitable
-from areas.base import Area, Impassable
+from areas.base import Area
+from areas.direction import Direction
 from ui import colors
 from ui.ui import UI
 
@@ -31,14 +32,12 @@ class Character:
         self.area.render_panel(ui, ui.AREA_PANEL)
 
     def _handle_movement(self, key: int) -> tuple[Section, Area]:
-        if key == pygame.K_UP:
-            return self.section, self.section.get_north(self.area)
-        elif key == pygame.K_DOWN:
-            return self.section, self.section.get_south(self.area)
-        elif key == pygame.K_LEFT:
-            return self.section, self.section.get_west(self.area)
-        elif key == pygame.K_RIGHT:
-            return self.section, self.section.get_east(self.area)
+        if key in Direction.key_map():
+            direction = Direction.key_map()[key]
+            dest = self.section.get_neighbor(self.area, direction)
+            if direction in self.area.barriers or direction.opposite in dest.barriers:
+                raise ValueError(f"The {dest.name} blocks your path.")
+            return self.section, dest
         elif key == pygame.K_e and isinstance(self.area, (Enterable, Exitable)):
             return self.area.travel_to
         raise ValueError("no movement")
@@ -46,11 +45,10 @@ class Character:
     def handle_key(self, key: int, ui: UI) -> None:
         try:
             section, dest = self._handle_movement(key)
-            if isinstance(dest, Impassable):
-                ui.say(f"The {dest.name} blocks your path.")
-                return
-
             self.section, self.area = section, dest
             self.area.enter(ui)
-        except (ValueError, IndexError):
+        except ValueError as e:
+            if str(e) != "no movement":
+                ui.say(str(e))
+        except IndexError:
             pass

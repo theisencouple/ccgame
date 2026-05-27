@@ -5,8 +5,8 @@ from .base import Area
 class Lake(Area):
     _MINIMAP = Path("assets/lake_16x16.png")
 
-    def __init__(self, minimap_rotation: int = 0) -> None:
-        super().__init__("lake", "A calm lake.", self._MINIMAP, image=Path("assets/lake.png"), minimap_rotation=minimap_rotation)
+    def __init__(self, rotation: int = 0) -> None:
+        super().__init__("lake", "A calm lake.", self._MINIMAP, image=Path("assets/lake.png"), rotation=rotation)
 
 
 class LakeEdge(Lake):

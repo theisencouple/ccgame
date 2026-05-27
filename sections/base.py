@@ -2,6 +2,7 @@ from ui import colors
 from ui.ui import UI
 
 from areas.base import Area
+from areas.direction import Direction
 
 
 class Section:
@@ -36,17 +37,8 @@ class Section:
             raise IndexError
         return self.areas[nr][nc]
 
-    def get_north(self, area: Area) -> Area:
-        return self._get_area_at(area, -1, 0)
-
-    def get_south(self, area: Area) -> Area:
-        return self._get_area_at(area, 1, 0)
-
-    def get_west(self, area: Area) -> Area:
-        return self._get_area_at(area, 0, -1)
-
-    def get_east(self, area: Area) -> Area:
-        return self._get_area_at(area, 0, 1)
+    def get_neighbor(self, area: Area, direction: Direction) -> Area:
+        return self._get_area_at(area, direction.row, direction.col)
 
     def _find(self, area: Area) -> tuple[int, int]:
         for r, row in enumerate(self.areas):

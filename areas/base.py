@@ -1,29 +1,24 @@
 from pathlib import Path
 
 import pygame
+from areas.direction import Direction
 from ui.ui import UI
 from ui.panel import Panel
-
-
-class Interior:
-    """Mixin that blocks direct movement between two Interior areas."""
-
-
-class Impassable:
-    """Mixin for areas that cannot be entered (walls)."""
 
 
 class Area:
     def __init__(self, name: str, description: str,
                  minimap: Path | pygame.Color,
                  image: Path | None = None,
-                 minimap_rotation: int = 0) -> None:
+                 rotation: int = 0,
+                 barriers: list[Direction] = []) -> None:
         self.name = name
         self.description = description
         self.minimap = minimap
-        self.minimap_rotation = minimap_rotation
+        self.rotation = rotation
         self.image = image
         self.visited = False
+        self.barriers = [b.rotated(rotation) for b in barriers]
 
     def enter(self, ui: UI) -> None:
         if not self.visited:
@@ -33,7 +28,7 @@ class Area:
 
     def base_minimap(self, ui: UI) -> pygame.Surface:
         if isinstance(self.minimap, Path):
-            return pygame.transform.rotate(ui.load_image(self.minimap, ui.TS, ui.TS), self.minimap_rotation).copy()
+            return pygame.transform.rotate(ui.load_image(self.minimap, ui.TS, ui.TS), self.rotation).copy()
         surf = pygame.Surface((ui.TS, ui.TS))
         surf.fill(self.minimap)
         return surf
@@ -58,9 +53,9 @@ class AreaWithOverlay(Area):
                  minimap: Path | pygame.Color,
                  minimap_overlay: Path,
                  image: Path | None = None,
-                 minimap_rotation: int = 0,
+                 rotation: int = 0,
                  overlay_rotation: int = 0) -> None:
-        super().__init__(name, description, minimap, image, minimap_rotation)
+        super().__init__(name, description, minimap, image, rotation)
         self.minimap_overlay = minimap_overlay
         self.overlay_rotation = overlay_rotation
 

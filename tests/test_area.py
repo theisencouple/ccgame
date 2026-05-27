@@ -2,6 +2,7 @@ import pytest
 import pygame
 from unittest.mock import MagicMock
 from areas.base import Area
+from areas.direction import Direction
 from sections.base import Section
 
 _C = pygame.Color
@@ -40,26 +41,26 @@ class TestSection:
 
     def test_get_north(self):
         section, grid = self._section()
-        assert section.get_north(grid[2][1]) is grid[1][1]
+        assert section.get_neighbor(grid[2][1], Direction.NORTH) is grid[1][1]
 
     def test_get_south(self):
         section, grid = self._section()
-        assert section.get_south(grid[0][1]) is grid[1][1]
+        assert section.get_neighbor(grid[0][1], Direction.SOUTH) is grid[1][1]
 
     def test_get_west(self):
         section, grid = self._section()
-        assert section.get_west(grid[1][2]) is grid[1][1]
+        assert section.get_neighbor(grid[1][2], Direction.WEST) is grid[1][1]
 
     def test_get_east(self):
         section, grid = self._section()
-        assert section.get_east(grid[1][0]) is grid[1][1]
+        assert section.get_neighbor(grid[1][0], Direction.EAST) is grid[1][1]
 
     def test_get_north_out_of_bounds_raises(self):
         section, grid = self._section()
         with pytest.raises(IndexError):
-            section.get_north(grid[0][0])
+            section.get_neighbor(grid[0][0], Direction.NORTH)
 
     def test_get_south_out_of_bounds_raises(self):
         section, grid = self._section()
         with pytest.raises(IndexError):
-            section.get_south(grid[2][0])
+            section.get_neighbor(grid[2][0], Direction.SOUTH)

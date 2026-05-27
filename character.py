@@ -39,7 +39,9 @@ class Character:
         if key in Direction.key_map():
             direction = Direction.key_map()[key]
             dest = self.section.get_neighbor(self.area, direction)
-            if direction in self.area.barriers or direction.opposite in dest.barriers:
+            if direction in self.area.barriers:
+                raise ValueError(f"The {self.area.name} blocks your path.")
+            if direction.opposite in dest.barriers:
                 raise ValueError(f"The {dest.name} blocks your path.")
             return self.section, dest
         elif key == pygame.K_e:

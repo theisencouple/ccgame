@@ -8,6 +8,7 @@ from areas.lake import Lake, LakeEdge, LakeCorner
 from areas.village import Village
 from areas.strawberry_field import StrawberryField
 from areas.ruin import Ruin
+from monsters.goblin import Goblin
 
 SIZE = 30
 
@@ -17,6 +18,9 @@ grid: list[list[Area]] = [[Field() for _ in range(SIZE)] for _ in range(SIZE)]
 for r in range(2, 13):
     for c in range(1, 9):
         grid[r][c] = Forest()
+
+grid[12][8].monster = Goblin()
+grid[12][7].monster = Goblin()
 
 # Lake in the southeast — interior, edges, corners
 for r in range(19, 27):

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pygame
 from areas.direction import Direction
+from monsters.monster import Monster
 from ui.ui import UI
 from ui.panel import Panel
 
@@ -14,7 +15,8 @@ class Area:
                  minimap: Path | pygame.Color,
                  image: Path | None = None,
                  rotation: int = 0,
-                 barriers: list[Direction] = []) -> None:
+                 barriers: list[Direction] = [],
+                 monster: Monster | None = None) -> None:
         self.name = name
         self.description = description
         self.minimap = minimap
@@ -22,6 +24,7 @@ class Area:
         self.image = image
         self.visited = False
         self.barriers = [b.rotated(rotation) for b in barriers]
+        self.monster = monster
 
     def enter(self, ui: UI) -> None:
         if not self.visited:
@@ -49,6 +52,8 @@ class Area:
         panel.draw(ui)
         if self.image:
             panel.load_image(ui, self.image)
+        if self.monster:
+            self.monster.render(ui, panel)
 
 
 class AreaWithOverlay(Area):

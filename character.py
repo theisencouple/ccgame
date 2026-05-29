@@ -16,6 +16,8 @@ class Character:
     def __init__(self, section: Section, area: Area) -> None:
         self.section = section
         self.area = area
+        self.max_hp = 20
+        self.hp = self.max_hp
 
     def get_actions(self) -> list[tuple[str, str]]:
         actions: list[tuple[str, str]] = [("arrow keys", "Move")]
@@ -34,6 +36,25 @@ class Character:
             ui.blit(f" {label}", colors.TEXT, x + ui.font.size(f"[{key}]")[0], y)
             y += lh + 2
         self.area.render_panel(ui, ui.AREA_PANEL)
+        self._draw_character_panel(ui)
+
+    def _draw_character_panel(self, ui: UI) -> None:
+        ui.CHARACTER_PANEL.draw(ui)
+        cx = ui.CPX + 12
+        cy = ui.CPY + 14
+        lh = ui.font.get_linesize()
+
+        ui.blit("HP", colors.TEXT, cx, cy)
+        ui.blit(f"{self.hp} / {self.max_hp}", colors.RED, cx + 40, cy)
+
+        bar_x = cx
+        bar_y = cy + lh + 6
+        bar_w = ui.CPW - 24
+        bar_h = 16
+        ui.fill_rect(bar_x, bar_y, bar_w, bar_h, colors.BORDER, border_radius=4)
+        filled_w = int(bar_w * self.hp / self.max_hp) if self.max_hp > 0 else 0
+        if filled_w > 0:
+            ui.fill_rect(bar_x, bar_y, filled_w, bar_h, colors.RED, border_radius=4)
 
     def _handle_movement(self, key: int) -> tuple[Section, Area]:
         if key in Direction.key_map():

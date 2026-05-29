@@ -21,14 +21,19 @@ class UI(UIBase):
     PY = PAD
     PW = W - PX - PAD
     PH = 350
-    LX = PX
-    LY = PY + PH + PAD
-    LW = PW
-    LH = H - LY - PAD
+    CPX = PX
+    CPY = PY + PH + PAD
+    CPW = 250
+    CPH = H - CPY - PAD
+    LX = CPX + CPW + PAD
+    LY = CPY
+    LW = W - LX - PAD
+    LH = CPH
 
     MAP_PANEL = PanelWithTitle(MX, MY, MW, MH, "Map")
     ACTIONS_PANEL = PanelWithTitle(AX, AY, AW, AH, "Actions")
     AREA_PANEL = Panel(PX, PY, PW, PH)
+    CHARACTER_PANEL = PanelWithTitle(CPX, CPY, CPW, CPH, "Character")
     MESSAGES_PANEL = MessagePanel(LX, LY, LW, LH, "Messages")
 
     def say(self, text: str) -> None:

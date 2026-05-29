@@ -24,15 +24,17 @@ gate = VillageGate()
 
 # fmt: off
 grid: list[list[Area]] = [
-    [_CTL(), _BN(), _CTR(), _S(),  _CTL(), _BN(), _CTR()],  # row 0 - top of north buildings
-    [_BW(),  _HI(), _BE(),  _S(),  _BW(),  _HI(), _BE() ],  # row 1 - sides
-    [_CBL(), _HD(), _CBR(), _S(),  _CBL(), _HD(), _CBR()],  # row 2 - south face of north buildings
-    [_S(),   _S(),  _S(),   _S(),  _S(),   _S(),  _S()  ],  # row 3 - street
-    [_CTL(), _BN(), _CTR(), _S(),  _CTL(), _BN(), _CTR()],  # row 4 - north face of south buildings
-    [_BW(),  _BI(), _BE(),  _S(),  _BW(),  _HI(), _BE() ],  # row 5 - sides
-    [_CBL(), _BD(), _CBR(), _S(),  _CBL(), _HD(), _CBR()],  # row 6 - south face of south buildings
-    [_S(),   _S(),  _S(),   _S(),  _S(),   _S(),  _S()  ],  # row 7 - street
-    [_S(),   _S(),  gate,   _S(),  _S(),   _S(),  _S()  ],  # row 8 - gate
+    [_CTL(), _BN(), _BN(), _CTR(), _S(),  _CTL(), _BN(), _BN(), _CTR()],  # row 0 - top of north buildings
+    [_BW(),  _HI(), _HI(), _BE(),  _S(),  _BW(),  _HI(), _HI(), _BE() ],  # row 1 - interior
+    [_BW(),  _HI(), _HI(), _BE(),  _S(),  _BW(),  _HI(), _HI(), _BE() ],  # row 2 - interior
+    [_CBL(), _BS(), _HD(), _CBR(), _S(),  _CBL(), _BS(), _HD(), _CBR()],  # row 3 - south face of north buildings
+    [_S(),   _S(),  _S(),  _S(),   _S(),  _S(),   _S(),  _S(),  _S()  ],  # row 4 - street
+    [_CTL(), _BN(), _BN(), _CTR(), _S(),  _CTL(), _BN(), _BN(), _CTR()],  # row 5 - north face of south buildings
+    [_BW(),  _BI(), _BI(), _BE(),  _S(),  _BW(),  _HI(), _HI(), _BE() ],  # row 6 - interior
+    [_BW(),  _BI(), _BI(), _BE(),  _S(),  _BW(),  _HI(), _HI(), _BE() ],  # row 7 - interior
+    [_CBL(), _BS(), _BD(), _CBR(), _S(),  _CBL(), _BS(), _HD(), _CBR()],  # row 8 - south face of south buildings
+    [_S(),   _S(),  _S(),  _S(),   _S(),  _S(),   _S(),  _S(),  _S()  ],  # row 9 - street
+    [_S(),   _S(),  _S(),  _S(),   gate,  _S(),   _S(),  _S(),  _S()  ],  # row 10 - gate
 ]
 # fmt: on
 

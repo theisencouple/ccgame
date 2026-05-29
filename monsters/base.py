@@ -7,10 +7,11 @@ from ui.panel import Panel
 
 
 class Monster:
-    def __init__(self, name: str, max_hp: int, image: Path) -> None:
+    def __init__(self, name: str, max_hp: int, attack_power: int, image: Path) -> None:
         self.name = name
         self.max_hp = max_hp
         self.hp = max_hp
+        self.attack_power = attack_power
         self.image = image
 
     @property

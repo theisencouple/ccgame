@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pygame
 from areas.direction import Direction
-from monsters.monster import Monster
+from monsters.base import Monster
 from ui.ui import UI
 from ui.panel import Panel
 
@@ -52,8 +52,6 @@ class Area:
         panel.draw(ui)
         if self.image:
             panel.load_image(ui, self.image)
-        if self.monster:
-            self.monster.render(ui, panel)
 
 
 class AreaWithOverlay(Area):

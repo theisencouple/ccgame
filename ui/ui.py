@@ -23,9 +23,13 @@ class UI(UIBase):
     PH = 350
     CPX = PX
     CPY = PY + PH + PAD
-    CPW = 250
+    CPW = 220
     CPH = H - CPY - PAD
-    LX = CPX + CPW + PAD
+    MPX = CPX + CPW + PAD
+    MPY = CPY
+    MPW = 220
+    MPH = CPH
+    LX = MPX + MPW + PAD
     LY = CPY
     LW = W - LX - PAD
     LH = CPH
@@ -34,6 +38,7 @@ class UI(UIBase):
     ACTIONS_PANEL = PanelWithTitle(AX, AY, AW, AH, "Actions")
     AREA_PANEL = Panel(PX, PY, PW, PH)
     CHARACTER_PANEL = PanelWithTitle(CPX, CPY, CPW, CPH, "Character")
+    MONSTER_PANEL = PanelWithTitle(MPX, MPY, MPW, MPH, "Monster")
     MESSAGES_PANEL = MessagePanel(LX, LY, LW, LH, "Messages")
 
     def say(self, text: str) -> None:

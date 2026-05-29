@@ -10,6 +10,7 @@ class UIBase:
         self._image_cache: dict[tuple[Path, int, int], pygame.Surface] = {}
         self.screen = screen
         self.font = pygame.font.SysFont("monospace", 13)
+        self.big_font = pygame.font.SysFont("monospace", 28, bold=True)
 
     def clear(self) -> None:
         self.screen.fill(colors.BG)

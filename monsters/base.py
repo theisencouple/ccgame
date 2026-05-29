@@ -14,10 +14,6 @@ class Monster:
         self.attack_power = attack_power
         self.image = image
 
-    @property
-    def is_alive(self) -> bool:
-        return self.hp > 0
-
     def take_damage(self, amount: int) -> None:
         self.hp = max(0, self.hp - amount)
 

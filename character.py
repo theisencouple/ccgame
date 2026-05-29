@@ -27,7 +27,7 @@ class Character:
 
     @property
     def in_combat(self) -> bool:
-        return self.area.monster is not None and self.area.monster.is_alive
+        return self.area.monster is not None
 
     def get_actions(self) -> list[tuple[str, str]]:
         if self.in_combat:
@@ -41,7 +41,7 @@ class Character:
 
     def draw(self, ui: UI) -> None:
         monster = self.area.monster
-        if monster and monster.is_alive:
+        if monster:
             ui.MESSAGES_PANEL.x = ui.LX
             ui.MESSAGES_PANEL.w = ui.LW
         else:
@@ -104,7 +104,7 @@ class Character:
 
     def _draw_monster_panel(self, ui: UI) -> None:
         monster = self.area.monster
-        if monster is None or not monster.is_alive:
+        if monster is None:
             return
         ui.MONSTER_PANEL.title = monster.name
         ui.MONSTER_PANEL.draw(ui)
@@ -125,7 +125,7 @@ class Character:
 
     def _draw_area_monster(self, ui: UI) -> None:
         monster = self.area.monster
-        if monster is None or not monster.is_alive:
+        if monster is None:
             self.monster_flash = 0
             return
         panel = ui.AREA_PANEL
@@ -168,15 +168,16 @@ class Character:
             monster.take_damage(self.attack_power)
             self._mon_dmg_flash = 30
             self._mon_dmg_amount = self.attack_power
-            if monster.is_alive:
+            if monster.hp <= 0:
+                self.area.monster = None
+                ui.say(f"You defeated the {monster.name}!")
+            else:
                 self.hp = max(0, self.hp - monster.attack_power)
                 self.monster_flash = 10
                 self._char_dmg_flash = 30
                 self._char_dmg_amount = monster.attack_power
                 if self.hp <= 0:
                     ui.say("You have died.")
-            else:
-                ui.say(f"You defeated the {monster.name}!")
 
     def handle_key(self, key: int, ui: UI) -> None:
         if self.hp <= 0:
@@ -191,7 +192,7 @@ class Character:
             self._char_dmg_flash = 0
             self.monster_flash = 0
             self.area.enter(ui)
-            if (m := self.area.monster) and m.is_alive:
+            if m := self.area.monster:
                 ui.say(f"A {m.name} appears!")
         except (NoMovement, IndexError):
             pass

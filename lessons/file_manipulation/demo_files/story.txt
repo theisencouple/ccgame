@@ -1,0 +1,2 @@
+The club opened the old folder and found a note:
+"Python can read me, change me, copy me, and organize me."

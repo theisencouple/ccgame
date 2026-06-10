@@ -1,0 +1,4 @@
+Files are boxes, paths are keys,
+Python opens them with ease.
+Read and write, but please take care,
+Backups first before you dare.
